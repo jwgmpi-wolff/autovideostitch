@@ -161,7 +161,15 @@ def concatenate_clips(clips: list[Path], destination: Path, list_file: Path) -> 
 
 
 def _run(command: list[str]) -> subprocess.CompletedProcess[str]:
-    result = subprocess.run(command, capture_output=True, text=True, encoding="utf-8", errors="replace")
+    creation_flags = subprocess.CREATE_NO_WINDOW if os.name == "nt" else 0
+    result = subprocess.run(
+        command,
+        capture_output=True,
+        text=True,
+        encoding="utf-8",
+        errors="replace",
+        creationflags=creation_flags,
+    )
     if result.returncode:
         detail = result.stderr.strip() or result.stdout.strip()
         raise RuntimeError(f"Command failed: {Path(command[0]).name}\n{detail}")

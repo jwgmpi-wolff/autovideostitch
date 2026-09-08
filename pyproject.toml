@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "autovideostitch"
-version = "1.0.0"
+version = "1.0.1"
 description = "Find described scenes in videos and stitch the matches into a result video."
 requires-python = ">=3.11"
 dependencies = [

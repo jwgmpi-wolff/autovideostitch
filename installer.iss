@@ -1,5 +1,7 @@
 #define MyAppName "Auto Video Stitch"
-#define MyAppVersion "1.0.0"
+#ifndef MyAppVersion
+#define MyAppVersion "1.0.1"
+#endif
 #define MyAppPublisher "jwgmpi-wolff"
 #define MyAppExeName "AutoVideoStitch.exe"
 

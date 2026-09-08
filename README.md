@@ -8,13 +8,13 @@ The processing flow reuses the approach demonstrated by `DrummerHighlightGenerat
 
 Download the current Windows release:
 
-- [Windows installer (`Setup.exe`)](https://github.com/jwgmpi-wolff/autovideostitch/releases/latest/download/AutoVideoStitch-Setup-1.0.0.exe)
-- [Portable Windows app (`.zip`)](https://github.com/jwgmpi-wolff/autovideostitch/releases/latest/download/AutoVideoStitch-Portable-1.0.0.zip)
-- [SHA-256 checksums](https://github.com/jwgmpi-wolff/autovideostitch/releases/latest/download/AutoVideoStitch-1.0.0-SHA256.txt)
+- [Windows installer (`Setup.exe`)](https://github.com/jwgmpi-wolff/autovideostitch/releases/latest/download/AutoVideoStitch-Setup-1.0.1.exe)
+- [Portable Windows app (`.zip`)](https://github.com/jwgmpi-wolff/autovideostitch/releases/latest/download/AutoVideoStitch-Portable-1.0.1.zip)
+- [SHA-256 checksums](https://github.com/jwgmpi-wolff/autovideostitch/releases/latest/download/AutoVideoStitch-1.0.1-SHA256.txt)
 
 The repository is private, so GitHub prompts authorized users to sign in before downloading.
 
-1. Install with `AutoVideoStitch-Setup-1.0.0.exe`, or extract the complete portable ZIP and open `AutoVideoStitch.exe`.
+1. Install with `AutoVideoStitch-Setup-1.0.1.exe`, or extract the complete portable ZIP and open `AutoVideoStitch.exe`.
 2. Add one or more videos.
 3. Describe the scene, choose a reference image for visual or facial-likeness matching, or provide both.
 4. Choose the result MP4 path and select **Find and stitch scenes**.
