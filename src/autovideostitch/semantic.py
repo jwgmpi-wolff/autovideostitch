@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import sys
 from collections.abc import Callable
 from pathlib import Path
 from typing import Any
@@ -8,6 +9,16 @@ from PIL import Image
 
 
 MODEL_ID = "openai/clip-vit-base-patch32"
+BUNDLED_MODEL_PATH = Path("models") / "openai-clip-vit-base-patch32"
+
+
+def model_source() -> tuple[str | Path, bool]:
+    if not getattr(sys, "frozen", False):
+        return MODEL_ID, False
+    bundled = Path(sys._MEIPASS) / BUNDLED_MODEL_PATH  # type: ignore[attr-defined]
+    if not bundled.is_dir():
+        raise RuntimeError("The installed scene recognition model is missing. Reinstall Auto Video Stitch.")
+    return bundled, True
 
 
 class SemanticMatcher:
@@ -25,10 +36,11 @@ class SemanticMatcher:
         import torch
         from transformers import CLIPModel, CLIPProcessor
 
+        source, local_files_only = model_source()
         self._torch = torch
         self._device = "cuda" if torch.cuda.is_available() else "cpu"
-        self._processor = CLIPProcessor.from_pretrained(MODEL_ID)
-        self._model = CLIPModel.from_pretrained(MODEL_ID).to(self._device)
+        self._processor = CLIPProcessor.from_pretrained(source, local_files_only=local_files_only)
+        self._model = CLIPModel.from_pretrained(source, local_files_only=local_files_only).to(self._device)
         self._model.eval()
 
     def score(

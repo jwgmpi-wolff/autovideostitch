@@ -25,7 +25,7 @@ The app writes three files in the chosen folder:
 - A `_scenes.csv` file containing source paths, start/end seconds, and similarity scores.
 - A `_summary.json` file containing the query and the same machine-readable scene details.
 
-On first use, the app downloads the `openai/clip-vit-base-patch32` model from Hugging Face (about 600 MB) into the current user's model cache. Videos and sampled frames remain local. Later runs use the cached model.
+The Windows installer and portable app include FFmpeg, FFprobe, the Python runtime and libraries, and the `openai/clip-vit-base-patch32` scene-recognition model. Video processing works without installing additional software or downloading model files. Videos and sampled frames remain local.
 
 ## Search settings
 
@@ -38,7 +38,7 @@ Reference matching uses whole-image CLIP similarity. For better facial-likeness 
 
 ## Build on Windows
 
-Prerequisites are Python 3.11+ and FFmpeg/FFprobe on `PATH`.
+Build prerequisites are Python 3.11+, FFmpeg/FFprobe on `PATH`, and internet access to download the scene-recognition model into the build output. End users do not need these prerequisites because they are included in the installer and portable app.
 
 ```powershell
 .\build.ps1

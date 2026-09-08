@@ -12,8 +12,24 @@ if (-not $SkipBuild) {
     & (Join-Path $PSScriptRoot 'build.ps1')
     if ($LASTEXITCODE -ne 0) { throw 'Application build failed.' }
 }
-if (-not (Test-Path (Join-Path $distribution 'AutoVideoStitch.exe'))) {
-    throw 'The application distribution is missing. Run build.ps1 first.'
+$requiredFiles = @(
+    'AutoVideoStitch.exe',
+    '_internal\ffmpeg\ffmpeg.exe',
+    '_internal\ffmpeg\ffprobe.exe',
+    '_internal\models\openai-clip-vit-base-patch32\config.json',
+    '_internal\models\openai-clip-vit-base-patch32\preprocessor_config.json',
+    '_internal\models\openai-clip-vit-base-patch32\tokenizer_config.json',
+    '_internal\models\openai-clip-vit-base-patch32\vocab.json',
+    '_internal\models\openai-clip-vit-base-patch32\merges.txt'
+)
+foreach ($requiredFile in $requiredFiles) {
+    if (-not (Test-Path (Join-Path $distribution $requiredFile))) {
+        throw "The application distribution is missing $requiredFile. Run build.ps1 first."
+    }
+}
+$modelDirectory = Join-Path $distribution '_internal\models\openai-clip-vit-base-patch32'
+if (-not ((Test-Path (Join-Path $modelDirectory 'model.safetensors')) -or (Test-Path (Join-Path $modelDirectory 'pytorch_model.bin')))) {
+    throw 'The application distribution is missing the scene recognition model weights. Run build.ps1 first.'
 }
 if (-not (Test-Path $innoCompiler)) {
     throw 'Inno Setup 6 is required. Install it with: winget install JRSoftware.InnoSetup'
