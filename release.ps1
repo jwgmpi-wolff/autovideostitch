@@ -1,5 +1,5 @@
 param(
-    [string]$Version = '1.0.1',
+    [string]$Version = '1.0.2',
     [switch]$SkipBuild
 )
 
@@ -16,6 +16,18 @@ $requiredFiles = @(
     'AutoVideoStitch.exe',
     '_internal\ffmpeg\ffmpeg.exe',
     '_internal\ffmpeg\ffprobe.exe',
+    '_internal\msvcp140.dll',
+    '_internal\vcruntime140.dll',
+    '_internal\vcruntime140_1.dll',
+    '_internal\torch\lib\c10.dll',
+    '_internal\torch\lib\libiomp5md.dll',
+    '_internal\torch\lib\libiompstubs5md.dll',
+    '_internal\torch\lib\shm.dll',
+    '_internal\torch\lib\torch.dll',
+    '_internal\torch\lib\torch_cpu.dll',
+    '_internal\torch\lib\torch_global_deps.dll',
+    '_internal\torch\lib\torch_python.dll',
+    '_internal\torch\lib\uv.dll',
     '_internal\models\openai-clip-vit-base-patch32\config.json',
     '_internal\models\openai-clip-vit-base-patch32\preprocessor_config.json',
     '_internal\models\openai-clip-vit-base-patch32\tokenizer_config.json',
