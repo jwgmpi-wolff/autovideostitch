@@ -38,7 +38,10 @@ class SemanticMatcher:
             return
         self._progress("Loading the scene recognition model...")
         import torch
-        from transformers import CLIPModel, CLIPProcessor
+        from transformers.models.clip.image_processing_clip import CLIPImageProcessor  # noqa: F401
+        from transformers.models.clip.modeling_clip import CLIPModel
+        from transformers.models.clip.processing_clip import CLIPProcessor
+        from transformers.models.clip.tokenization_clip import CLIPTokenizer  # noqa: F401
 
         source, local_files_only = model_source()
         self._torch = torch
