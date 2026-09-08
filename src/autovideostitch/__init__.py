@@ -1,0 +1,1 @@
+"""Auto Video Stitch scene search package."""
