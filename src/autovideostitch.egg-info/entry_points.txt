@@ -1,2 +1,0 @@
-[gui_scripts]
-auto-video-stitch = autovideostitch.ui:main

@@ -1,9 +1,0 @@
-pillow<13,>=11
-torch<3,>=2.6
-transformers<6,>=4.49
-
-[build]
-pyinstaller<7,>=6.12
-
-[test]
-pytest<9,>=8.4
