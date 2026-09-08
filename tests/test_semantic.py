@@ -28,3 +28,15 @@ def test_model_source_allows_download_for_online_build(monkeypatch: pytest.Monke
     monkeypatch.setattr(semantic.sys, "_MEIPASS", str(tmp_path), raising=False)
 
     assert semantic.model_source() == (semantic.MODEL_ID, False)
+
+
+def test_model_source_prefers_bundled_model_over_online_marker(
+    monkeypatch: pytest.MonkeyPatch, tmp_path: Path
+) -> None:
+    bundled = tmp_path / semantic.BUNDLED_MODEL_PATH
+    bundled.mkdir(parents=True)
+    (tmp_path / semantic.ONLINE_MODEL_MARKER).touch()
+    monkeypatch.setattr(semantic.sys, "frozen", True, raising=False)
+    monkeypatch.setattr(semantic.sys, "_MEIPASS", str(tmp_path), raising=False)
+
+    assert semantic.model_source() == (bundled, True)

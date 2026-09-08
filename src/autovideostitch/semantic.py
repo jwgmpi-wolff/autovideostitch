@@ -18,11 +18,11 @@ def model_source() -> tuple[str | Path, bool]:
         return MODEL_ID, False
     runtime_root = Path(sys._MEIPASS)  # type: ignore[attr-defined]
     bundled = runtime_root / BUNDLED_MODEL_PATH
+    if bundled.is_dir():
+        return bundled, True
     if (runtime_root / ONLINE_MODEL_MARKER).is_file():
         return MODEL_ID, False
-    if not bundled.is_dir():
-        raise RuntimeError("The installed scene recognition model is missing. Reinstall Auto Video Stitch.")
-    return bundled, True
+    raise RuntimeError("The installed scene recognition model is missing. Reinstall Auto Video Stitch.")
 
 
 class SemanticMatcher:
