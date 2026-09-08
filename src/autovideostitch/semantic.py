@@ -10,12 +10,16 @@ from PIL import Image
 
 MODEL_ID = "openai/clip-vit-base-patch32"
 BUNDLED_MODEL_PATH = Path("models") / "openai-clip-vit-base-patch32"
+ONLINE_MODEL_MARKER = Path("online-model-download.flag")
 
 
 def model_source() -> tuple[str | Path, bool]:
     if not getattr(sys, "frozen", False):
         return MODEL_ID, False
-    bundled = Path(sys._MEIPASS) / BUNDLED_MODEL_PATH  # type: ignore[attr-defined]
+    runtime_root = Path(sys._MEIPASS)  # type: ignore[attr-defined]
+    bundled = runtime_root / BUNDLED_MODEL_PATH
+    if (runtime_root / ONLINE_MODEL_MARKER).is_file():
+        return MODEL_ID, False
     if not bundled.is_dir():
         raise RuntimeError("The installed scene recognition model is missing. Reinstall Auto Video Stitch.")
     return bundled, True

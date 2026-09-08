@@ -8,13 +8,14 @@ The processing flow reuses the approach demonstrated by `DrummerHighlightGenerat
 
 Download the current Windows release:
 
-- [Windows installer (`Setup.exe`)](https://github.com/jwgmpi-wolff/autovideostitch/releases/latest/download/AutoVideoStitch-Setup-1.0.2.exe)
+- [Online installer (smaller download)](https://github.com/jwgmpi-wolff/autovideostitch/releases/latest/download/AutoVideoStitch-Online-Setup-1.0.2.exe)
+- [Offline installer (includes the scene model)](https://github.com/jwgmpi-wolff/autovideostitch/releases/latest/download/AutoVideoStitch-Setup-1.0.2.exe)
 - [Portable Windows app (`.zip`)](https://github.com/jwgmpi-wolff/autovideostitch/releases/latest/download/AutoVideoStitch-Portable-1.0.2.zip)
 - [SHA-256 checksums](https://github.com/jwgmpi-wolff/autovideostitch/releases/latest/download/AutoVideoStitch-1.0.2-SHA256.txt)
 
 The repository is private, so GitHub prompts authorized users to sign in before downloading.
 
-1. Install with `AutoVideoStitch-Setup-1.0.2.exe`, or extract the complete portable ZIP and open `AutoVideoStitch.exe`.
+1. Install with either setup executable, or extract the complete portable ZIP and open `AutoVideoStitch.exe`.
 2. Add one or more videos.
 3. Describe the scene, choose a reference image for visual or facial-likeness matching, or provide both.
 4. Choose the result MP4 path and select **Find and stitch scenes**.
@@ -25,7 +26,7 @@ The app writes three files in the chosen folder:
 - A `_scenes.csv` file containing source paths, start/end seconds, and similarity scores.
 - A `_summary.json` file containing the query and the same machine-readable scene details.
 
-The Windows installer and portable app include FFmpeg, FFprobe, the Python runtime and libraries, and the `openai/clip-vit-base-patch32` scene-recognition model. Video processing works without installing additional software or downloading model files. Videos and sampled frames remain local.
+Both installers include FFmpeg, FFprobe, the Python runtime, and all required libraries. The smaller online installer downloads the `openai/clip-vit-base-patch32` scene-recognition model from Hugging Face on the first search and caches it in the user profile; internet access is required for that first download. The offline installer and portable app bundle the model and need no additional downloads. Videos and sampled frames remain local.
 
 ## Search settings
 
@@ -50,6 +51,12 @@ To create the installer, portable ZIP, and checksums:
 
 ```powershell
 .\release.ps1
+```
+
+To create the smaller installer that downloads the scene model on first use:
+
+```powershell
+.\release.ps1 -OnlineInstaller
 ```
 
 This requires Inno Setup 6 (`winget install JRSoftware.InnoSetup`).

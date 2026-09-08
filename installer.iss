@@ -2,6 +2,12 @@
 #ifndef MyAppVersion
 #define MyAppVersion "1.0.2"
 #endif
+#ifndef MyDistributionDir
+#define MyDistributionDir "dist\AutoVideoStitch"
+#endif
+#ifndef MyOutputBaseFilename
+#define MyOutputBaseFilename "AutoVideoStitch-Setup-" + MyAppVersion
+#endif
 #define MyAppPublisher "jwgmpi-wolff"
 #define MyAppExeName "AutoVideoStitch.exe"
 
@@ -14,7 +20,7 @@ DefaultDirName={localappdata}\Programs\Auto Video Stitch
 DefaultGroupName={#MyAppName}
 DisableProgramGroupPage=yes
 OutputDir=release
-OutputBaseFilename=AutoVideoStitch-Setup-{#MyAppVersion}
+OutputBaseFilename={#MyOutputBaseFilename}
 Compression=lzma2/ultra64
 SolidCompression=yes
 WizardStyle=modern
@@ -26,7 +32,7 @@ CloseApplications=yes
 RestartApplications=no
 
 [Files]
-Source: "dist\AutoVideoStitch\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs
+Source: "{#MyDistributionDir}\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs
 
 [Icons]
 Name: "{autoprograms}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"
