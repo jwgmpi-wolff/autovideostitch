@@ -26,6 +26,7 @@ $pyInstallerArguments = @(
     '--onedir',
     '--name', 'AutoVideoStitch',
     '--distpath', (Join-Path $PSScriptRoot $distributionRoot),
+    '--runtime-hook', (Join-Path $PSScriptRoot 'pyi_runtime_dlls.py'),
     '--add-binary', "${ffmpeg};ffmpeg",
     '--add-binary', "${ffprobe};ffmpeg"
 )

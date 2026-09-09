@@ -1,5 +1,5 @@
 param(
-    [string]$Version = '1.0.2',
+    [string]$Version = '1.0.3',
     [switch]$SkipBuild,
     [switch]$OnlineInstaller
 )
@@ -9,6 +9,13 @@ $releaseDirectory = Join-Path $PSScriptRoot 'release'
 $distributionRoot = if ($OnlineInstaller) { 'dist-online' } else { 'dist' }
 $distribution = Join-Path $PSScriptRoot "$distributionRoot\AutoVideoStitch"
 $innoCompiler = Join-Path $env:LOCALAPPDATA 'Programs\Inno Setup 6\ISCC.exe'
+$prerequisiteDirectory = Join-Path $PSScriptRoot 'build\prerequisites'
+$prerequisitePackages = @(
+    [pscustomobject]@{ Id = 'Microsoft.VCRedist.2015+.x64'; FileName = 'VC_redist.2015plus.x64.exe' },
+    [pscustomobject]@{ Id = 'Microsoft.VCRedist.2015+.x86'; FileName = 'VC_redist.2015plus.x86.exe' },
+    [pscustomobject]@{ Id = 'Microsoft.VCRedist.2013.x64'; FileName = 'VC_redist.2013.x64.exe' },
+    [pscustomobject]@{ Id = 'Microsoft.VCRedist.2013.x86'; FileName = 'VC_redist.2013.x86.exe' }
+)
 
 if (-not $SkipBuild) {
     & (Join-Path $PSScriptRoot 'build.ps1') -OnlineResources:$OnlineInstaller
@@ -53,8 +60,44 @@ if (-not $OnlineInstaller) {
         throw 'The application distribution is missing the scene recognition model weights. Run build.ps1 first.'
     }
 }
+$runtimeReport = Join-Path $env:TEMP "AutoVideoStitch-runtime-$([guid]::NewGuid().ToString('N')).txt"
+try {
+    $runtimeCheck = Start-Process `
+        -FilePath (Join-Path $distribution 'AutoVideoStitch.exe') `
+        -ArgumentList @('--verify-runtime', $runtimeReport) `
+        -Wait `
+        -PassThru
+    if ($runtimeCheck.ExitCode -ne 0) {
+        $runtimeDetails = if (Test-Path $runtimeReport) { Get-Content $runtimeReport -Raw } else { 'No diagnostic report was created.' }
+        throw "The packaged Torch runtime failed to load:`n$runtimeDetails"
+    }
+} finally {
+    Remove-Item $runtimeReport -Force -ErrorAction SilentlyContinue
+}
 if (-not (Test-Path $innoCompiler)) {
     throw 'Inno Setup 6 is required. Install it with: winget install JRSoftware.InnoSetup'
+}
+if (-not (Get-Command winget -ErrorAction SilentlyContinue)) {
+    throw 'WinGet is required to download the Microsoft Visual C++ prerequisites.'
+}
+
+Remove-Item $prerequisiteDirectory -Recurse -Force -ErrorAction SilentlyContinue
+New-Item -ItemType Directory -Force -Path $prerequisiteDirectory | Out-Null
+foreach ($package in $prerequisitePackages) {
+    $packageDirectory = Join-Path $prerequisiteDirectory $package.Id
+    New-Item -ItemType Directory -Force -Path $packageDirectory | Out-Null
+    & winget download `
+        --exact `
+        --id $package.Id `
+        --download-directory $packageDirectory `
+        --accept-source-agreements `
+        --accept-package-agreements `
+        --disable-interactivity
+    if ($LASTEXITCODE -ne 0) { throw "Unable to download prerequisite $($package.Id)." }
+    $downloads = @(Get-ChildItem $packageDirectory -Filter '*.exe' -File -Recurse)
+    if ($downloads.Count -ne 1) { throw "Expected one executable for prerequisite $($package.Id), found $($downloads.Count)." }
+    Move-Item $downloads[0].FullName (Join-Path $prerequisiteDirectory $package.FileName)
+    Remove-Item $packageDirectory -Recurse -Force
 }
 
 New-Item -ItemType Directory -Force -Path $releaseDirectory | Out-Null
@@ -68,7 +111,7 @@ if (-not $OnlineInstaller) {
     Remove-Item $portableArchive -Force -ErrorAction SilentlyContinue
     Compress-Archive -Path $distribution -DestinationPath $portableArchive -CompressionLevel Optimal
 }
-& $innoCompiler "/DMyAppVersion=$Version" "/DMyDistributionDir=$distribution" "/DMyOutputBaseFilename=$installerBaseName" (Join-Path $PSScriptRoot 'installer.iss')
+& $innoCompiler "/DMyAppVersion=$Version" "/DMyDistributionDir=$distribution" "/DMyPrerequisiteDir=$prerequisiteDirectory" "/DMyOutputBaseFilename=$installerBaseName" (Join-Path $PSScriptRoot 'installer.iss')
 if ($LASTEXITCODE -ne 0) { throw 'Installer compilation failed.' }
 
 $artifactNames = @(

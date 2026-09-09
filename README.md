@@ -8,10 +8,10 @@ The processing flow reuses the approach demonstrated by `DrummerHighlightGenerat
 
 Download the current Windows release:
 
-- [Online installer (smaller download)](https://github.com/jwgmpi-wolff/autovideostitch/releases/latest/download/AutoVideoStitch-Online-Setup-1.0.2.exe)
-- [Offline installer (includes the scene model)](https://github.com/jwgmpi-wolff/autovideostitch/releases/latest/download/AutoVideoStitch-Setup-1.0.2.exe)
-- [Portable Windows app (`.zip`)](https://github.com/jwgmpi-wolff/autovideostitch/releases/latest/download/AutoVideoStitch-Portable-1.0.2.zip)
-- [SHA-256 checksums](https://github.com/jwgmpi-wolff/autovideostitch/releases/latest/download/AutoVideoStitch-1.0.2-SHA256.txt)
+- [Online installer (smaller download)](https://github.com/jwgmpi-wolff/autovideostitch/releases/latest/download/AutoVideoStitch-Online-Setup-1.0.3.exe)
+- [Offline installer (includes the scene model)](https://github.com/jwgmpi-wolff/autovideostitch/releases/latest/download/AutoVideoStitch-Setup-1.0.3.exe)
+- [Portable Windows app (`.zip`)](https://github.com/jwgmpi-wolff/autovideostitch/releases/latest/download/AutoVideoStitch-Portable-1.0.3.zip)
+- [SHA-256 checksums](https://github.com/jwgmpi-wolff/autovideostitch/releases/latest/download/AutoVideoStitch-1.0.3-SHA256.txt)
 
 The repository is private, so GitHub prompts authorized users to sign in before downloading.
 
@@ -26,7 +26,7 @@ The app writes three files in the chosen folder:
 - A `_scenes.csv` file containing source paths, start/end seconds, and similarity scores.
 - A `_summary.json` file containing the query and the same machine-readable scene details.
 
-Both installers include FFmpeg, FFprobe, the Python runtime, and all required libraries. The smaller online installer downloads the `openai/clip-vit-base-patch32` scene-recognition model from Hugging Face on the first search and caches it in the user profile; internet access is required for that first download. The offline installer and portable app bundle the model and need no additional downloads. Videos and sampled frames remain local.
+Both installers include FFmpeg, FFprobe, the Python runtime, all required libraries, and the Microsoft Visual C++ 2015-2022 and 2013 Redistributables for x64 and x86. Setup installs or updates those Microsoft runtimes automatically and therefore requests administrator approval. The smaller online installer downloads the `openai/clip-vit-base-patch32` scene-recognition model from Hugging Face on the first search and caches it in the user profile; internet access is required for that first download. The offline installer and portable app bundle the model and need no additional downloads. Videos and sampled frames remain local.
 
 ## Search settings
 
@@ -39,7 +39,7 @@ Reference matching uses whole-image CLIP similarity. For better facial-likeness 
 
 ## Build on Windows
 
-Build prerequisites are Python 3.11+, FFmpeg/FFprobe on `PATH`, and internet access to download the scene-recognition model into the build output. End users do not need these prerequisites because they are included in the installer and portable app.
+Build prerequisites are Python 3.11+, FFmpeg/FFprobe on `PATH`, WinGet, and internet access to download the scene-recognition model and Microsoft Visual C++ prerequisite installers into the build output. End users do not need these prerequisites because they are included in the installers. The portable app carries its required runtime DLLs locally.
 
 ```powershell
 .\build.ps1
