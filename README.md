@@ -30,6 +30,12 @@ Rendering is performed in a single FFmpeg pass to avoid storing a separate tempo
 video for every matched scene. The app checks free space on the output drive before
 encoding and reports a clear error when more space is required.
 
+## Windows downloads
+
+Download the production Windows installer and portable distribution from the
+[AutoVideoStitch v1.0.4 GitHub release](https://github.com/jwgmpi-wolff/autovideostitch/releases/tag/v1.0.4).
+The release also includes SHA256 checksums for verifying the downloads.
+
 ## Command line
 
 Pass one or more clips to use the command-line interface:
