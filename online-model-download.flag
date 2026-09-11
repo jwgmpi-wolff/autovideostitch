@@ -1,0 +1,1 @@
+This build downloads the scene recognition model from Hugging Face on first use.
