@@ -1,0 +1,36 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "autovideostitch"
+version = "0.1.0"
+description = "Utilities for automatically stitching videos together"
+readme = "README.md"
+requires-python = ">=3.9"
+authors = [{ name = "AutoVideoStitch" }]
+license = { text = "MIT" }
+keywords = ["video", "stitching", "automation"]
+dependencies = [
+    "imageio-ffmpeg>=0.6,<1",
+    "opencv-python-headless>=4.10,<5",
+    "Pillow>=10,<13",
+    "torch>=2.7,<3",
+    "transformers>=4.48,<5",
+]
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3 :: Only",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+]
+
+[project.scripts]
+autovideostitch = "autovideostitch.cli:main"
+autovideostitch-gui = "autovideostitch.gui:main"
+
+[tool.setuptools]
+package-dir = {"" = "src"}
+
+[tool.setuptools.packages.find]
+where = ["src"]
