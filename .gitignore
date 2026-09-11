@@ -6,6 +6,4 @@ __pycache__/
 *.py[cod]
 
 build/
-dist/
 dist-*/
-release/
