@@ -3,6 +3,19 @@
 A Windows video stitching app with local AI scene filtering and a command-line planning
 interface.
 
+<!-- project-downloads:start -->
+## APK and installer downloads
+
+| Package | Download | Source |
+| --- | --- | --- |
+| Windows installer | [AutoVideoStitch-Setup-1.0.4.exe](https://github.com/jwgmpi-wolff/autovideostitch/releases/download/v1.0.4/AutoVideoStitch-Setup-1.0.4.exe) | v1.0.4 |
+| Windows executable | [AutoVideoStitch.exe](https://media.githubusercontent.com/media/jwgmpi-wolff/autovideostitch/main/dist/AutoVideoStitch.exe) | Git LFS package |
+
+Android may require approval to install apps from this download source. Debug APKs are labeled above. Windows executables that are not setup packages may require accompanying project files; follow the project-specific instructions below.
+
+- [Download the complete source ZIP](https://github.com/jwgmpi-wolff/autovideostitch/archive/refs/heads/main.zip).
+<!-- project-downloads:end -->
+
 ## Desktop app
 
 Run the installed command without clip arguments:
@@ -51,3 +64,9 @@ autovideostitch first.mp4 --scene-filter face --output faces.mp4
 autovideostitch first.mp4 --scene-filter image --filter-value person.jpg --output matches.mp4
 autovideostitch first.mp4 --scene-filter text --filter-value "a person riding a bicycle" --output bicycle.mp4
 ```
+
+## Copyright
+
+Copyright (c) 2026 Jerry Wolff. See [COPYRIGHT](COPYRIGHT) for the scope of this
+notice. Existing licenses and third-party attribution remain unchanged; this
+notice does not grant additional permissions.
